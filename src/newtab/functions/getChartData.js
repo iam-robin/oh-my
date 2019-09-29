@@ -41,10 +41,6 @@ export default function getChartData(data, mode, period, date) {
               return parseInt(tooltipItems.yLabel) + 'min';
             } else if (mode === 'views') {
               return parseInt(tooltipItems.yLabel) + ' views';
-            } else if (mode === 'clicks') {
-              return parseInt(tooltipItems.yLabel) + ' clicks';
-            } else if (mode === 'scroll') {
-              return parseInt(tooltipItems.yLabel) + ' px';
             }
           },
         },
@@ -119,10 +115,6 @@ export default function getChartData(data, mode, period, date) {
             chartData.data.datasets[0].data.push(data[i].info.time / 60000);
           } else if (mode === 'views') {
             chartData.data.datasets[0].data.push(data[i].info.count);
-          } else if (mode === 'clicks') {
-            chartData.data.datasets[0].data.push(data[i].info.clicks);
-          } else if (mode === 'scroll') {
-            chartData.data.datasets[0].data.push(data[i].info.scroll);
           }
           hasData = true;
         }
@@ -140,11 +132,9 @@ export default function getChartData(data, mode, period, date) {
     let monthsData = data.reduce((o, { date, info }) => {
       let k = date.slice(0, 7);
 
-      o[k] = o[k] || { date: k, info: { time: 0, count: 0, clicks: 0, scroll: 0 } };
+      o[k] = o[k] || { date: k, info: { time: 0, count: 0} };
       o[k].info.time += info.time;
       o[k].info.count += info.count;
-      o[k].info.clicks += info.clicks;
-      o[k].info.scroll += info.scroll;
 
       return o;
     }, {});
@@ -167,10 +157,6 @@ export default function getChartData(data, mode, period, date) {
             chartData.data.datasets[0].data.push(monthsData[key].info.time / 60000);
           } else if (mode === 'views') {
             chartData.data.datasets[0].data.push(monthsData[key].info.count);
-          } else if (mode === 'clicks') {
-            chartData.data.datasets[0].data.push(monthsData[key].info.clicks);
-          } else if (mode === 'scroll') {
-            chartData.data.datasets[0].data.push(monthsData[key].info.scroll);
           }
           hasData = true;
         }

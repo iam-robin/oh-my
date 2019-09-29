@@ -4,8 +4,8 @@
       <MainHeader
         v-on:click.native="getActiveRoute()"
         :links="[
-          {name: 'Ratio View', to: '/ratio'},
-          {name: 'List View', to: '/list'}]"
+          {name: 'List View', to: '/list'},
+          {name: 'Ratio View', to: '/ratio'}]"
       />
 
       <main>
@@ -21,21 +21,6 @@
           <h1 v-else class="sum">–</h1>
         </div>
 
-        <!-- clicks mode -->
-        <div class="value" v-if="activeMode === 'clicks'">
-          <h1 v-if="periodSum.clicks > 0" class="sum">{{periodSum.clicks}}</h1>
-          <h1 v-else class="sum">–</h1>
-        </div>
-
-        <!-- scroll mode -->
-        <div class="value" v-if="activeMode === 'scroll'">
-          <h1 v-if="periodSum.scroll > 0" class="sum">{{parseInt(periodSum.scroll/100)}}K px</h1>
-          <h1 v-else-if="periodSum.scroll > 1000" class="sum">{{parseInt(periodSum.scroll/1000)}}K px</h1>
-          <h1 v-else-if="periodSum.scroll > 1000000" class="sum">{{parseInt(periodSum.scroll/1000000)}}M px</h1>
-          <h1 v-else class="sum">–</h1>
-        </div>
-
-
         <div class="date" :class="{ active: !this.menuActive }">
 
           <TimeIcon
@@ -50,17 +35,6 @@
             :size=20
           />
 
-          <ClicksIcon
-            v-if="activeMode === 'clicks'"
-            color='#000'
-            :size=20
-          />
-
-          <ScrollIcon
-            v-if="activeMode === 'scroll'"
-            color='#000'
-            :size=20
-          />
           <span class="mode">{{activeMode}} | </span>
           <span>{{formatedDate}}</span>
         </div>
@@ -94,8 +68,6 @@ import MainHeader from './components/MainHeader.vue';
 import SettingsMenu from './components/SettingsMenu.vue';
 import TimeIcon from './components/icons/TimeIcon.vue';
 import ViewsIcon from './components/icons/ViewsIcon.vue';
-import ClicksIcon from './components/icons/ClicksIcon.vue';
-import ScrollIcon from './components/icons/ScrollIcon.vue';
 
 import moment from 'moment';
 import formatMS from './functions/formatMS';
@@ -126,9 +98,7 @@ export default {
     MainHeader,
     SettingsMenu,
     TimeIcon,
-    ViewsIcon,
-    ClicksIcon,
-    ScrollIcon
+    ViewsIcon
   },
 
   created: function() {
@@ -160,21 +130,15 @@ export default {
         let websites = JSON.parse(localStorage.getItem(key));
         let timeSum = 0;
         let viewSum = 0;
-        let clickSum = 0;
-        let scrollSum = 0;
         for (let i = 0; i < websites.length; i++) {
           timeSum += websites[i].time;
           viewSum += websites[i].count;
-          clickSum += websites[i].clicks;
-          scrollSum += websites[i].scroll;
         }
         let object = {
           date: key,
           websites: websites,
           timeSum: timeSum,
-          viewSum: viewSum,
-          clickSum: clickSum,
-          scrollSum: scrollSum,
+          viewSum: viewSum
         };
         data.unshift(object);
       }
@@ -186,9 +150,7 @@ export default {
 
       let periodSum = {
         time: 0,
-        views: 0,
-        clicks: 0,
-        scroll: 0,
+        views: 0
       };
 
       let currentPeriod = [];
@@ -213,8 +175,6 @@ export default {
           if (entireData[x].date === periodday) {
             periodSum.time += entireData[x].timeSum;
             periodSum.views += entireData[x].viewSum;
-            periodSum.clicks += entireData[x].clickSum;
-            periodSum.scroll += entireData[x].scrollSum;
             currentPeriodData.push(entireData[x]);
           }
         }

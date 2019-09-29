@@ -10,12 +10,6 @@ import saveBehaviorInStorage from './functions/saveBehaviorInStorage';
 let startTime = 0;
 let websiteInfo;
 
-// usage behavior
-let usageBehaviorSum = {
-  clicks: 0,
-  scroll: 0,
-};
-
 let colorTable = [
   { name: 'darkblue', hex: '#4E8BD9' },
   { name: 'blue', hex: '#609DE9' },
@@ -64,11 +58,6 @@ chrome.tabs.onActivated.addListener(function(tabId, changeInfo, tab) {
     let time = measureUsageTime();
     saveWebsiteToStorage(result, colorTable).then(() => {
       saveTimeInStorage(result.prevDomain, time);
-      saveBehaviorInStorage(result.prevDomain, usageBehaviorSum);
-
-      // reset usage behavior
-      usageBehaviorSum.clicks = 0;
-      usageBehaviorSum.scroll = 0;
     });
   });
 });
@@ -82,11 +71,6 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
       let time = measureUsageTime();
       saveWebsiteToStorage(result, colorTable).then(() => {
         saveTimeInStorage(result.prevDomain, time);
-        saveBehaviorInStorage(result.prevDomain, usageBehaviorSum);
-
-        // reset usage behavior
-        usageBehaviorSum.clicks = 0;
-        usageBehaviorSum.scroll = 0;
       });
     });
   }
@@ -123,17 +107,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     // restart usageTime tracker
     console.log(sender.tab ? 'active:' + sender.tab.url : 'from the extension');
     measureUsageTime();
-  }
-
-  // get usage Behavior message from content
-  if (request.usageBehavior) {
-    // add the values up
-    usageBehaviorSum.clicks += request.usageBehavior.clicks;
-    usageBehaviorSum.scroll += request.usageBehavior.scroll;
-    console.log('clicks sum: ' + usageBehaviorSum.clicks);
-    console.log('clicks added: ' + request.usageBehavior.clicks);
-    console.log('scroll: ' + usageBehaviorSum.scroll);
-    console.log('scroll added: ' + request.usageBehavior.scroll);
   }
 });
 

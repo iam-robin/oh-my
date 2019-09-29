@@ -36,28 +36,6 @@
                   </svg>
                   {{website.count}} views | {{Math.round(website.percent * 1000) / 10}}%
                 </span>
-
-                <span class="value" v-if="mode === 'clicks'">
-                  <svg width="16" height="16" version="1.1" viewBox="0 0 16 16">
-                    <g transform="scale(0.666667)">
-                      <path fill="#000" d="M14,23c0,0 0,0 0,0c-0.4,0 -0.8,-0.3 -0.9,-0.7l-2.3,-6.9c-0.2,-0.5 0.1,-1.1 0.6,-1.3c0.5,-0.2 1.1,0.1 1.3,0.6l1.4,4.3l6.1,-15.3l-15.3,6.2l4.3,1.4c0.5,0.2 0.8,0.7 0.6,1.3c-0.2,0.5 -0.7,0.8 -1.3,0.6l-6.9,-2.3c-0.3,-0.1 -0.6,-0.5 -0.6,-0.9c0,-0.4 0.2,-0.8 0.6,-1l20,-8c0.4,-0.1 0.8,0 1.1,0.3c0.3,0.3 0.4,0.7 0.2,1.1l-8,20c-0.1,0.4 -0.5,0.6 -0.9,0.6Z"></path>
-                      <path fill="#000" d="M4,23c-0.8,0 -1.5,-0.3 -2.1,-0.9c-1.2,-1.2 -1.2,-3.1 0,-4.2l6.3,-6.3c0.4,-0.4 1,-0.4 1.4,0c0.4,0.4 0.4,1 0,1.4l-6.3,6.3c-0.2,0.2 -0.3,0.4 -0.3,0.7c0,0.3 0.1,0.5 0.3,0.7c0.4,0.4 1,0.4 1.4,0l6.3,-6.3c0.4,-0.4 1,-0.4 1.4,0c0.4,0.4 0.4,1 0,1.4l-6.3,6.3c-0.6,0.6 -1.3,0.9 -2.1,0.9Z"></path>
-                    </g>
-                  </svg>
-                  {{website.clicks}} clicks | {{Math.round(website.percent * 1000) / 10}}%
-                </span>
-
-                <span class="value" v-if="mode === 'scroll'">
-                  <svg width="16" height="16" version="1.1" viewBox="0 0 16 16" >
-                    <g transform="scale(0.666667)">
-                      <path fill="#000" d="M12,24c-6.6,0 -12,-5.4 -12,-12c0,-6.6 5.4,-12 12,-12c6.6,0 12,5.4 12,12c0,6.6 -5.4,12 -12,12Zm0,-22c-5.5,0 -10,4.5 -10,10c0,5.5 4.5,10 10,10c5.5,0 10,-4.5 10,-10c0,-5.5 -4.5,-10 -10,-10Z"></path>
-                      <path fill="#000" d="M15,11c-0.3,0 -0.5,-0.1 -0.7,-0.3l-2.3,-2.3l-2.3,2.3c-0.4,0.4 -1,0.4 -1.4,0c-0.4,-0.4 -0.4,-1 0,-1.4l3,-3c0.4,-0.4 1,-0.4 1.4,0l3,3c0.4,0.4 0.4,1 0,1.4c-0.2,0.2 -0.4,0.3 -0.7,0.3Z"></path>
-                      <path fill="#000" d="M12,18c-0.3,0 -0.5,-0.1 -0.7,-0.3l-3,-3c-0.4,-0.4 -0.4,-1 0,-1.4c0.4,-0.4 1,-0.4 1.4,0l2.3,2.3l2.3,-2.3c0.4,-0.4 1,-0.4 1.4,0c0.4,0.4 0.4,1 0,1.4l-3,3c-0.2,0.2 -0.4,0.3 -0.7,0.3Z"></path>
-                    </g>
-                  </svg>
-                  {{website.scroll}} px | {{Math.round(website.percent * 1000) / 10}}%
-                </span>
-
               </div>
             </div>
           </div>
@@ -157,28 +135,6 @@ export default {
             return -1;
           }
         });
-      } else if (mode === 'clicks') {
-        // sort all Websites by clicks (highest first)
-        sortedWebsites.sort(function(a, b) {
-          if (a.clicks < b.clicks) {
-            return 1;
-          } else if (a.clicks === b.clicks) {
-            return 0;
-          } else {
-            return -1;
-          }
-        });
-      } else if (mode === 'scroll') {
-        // sort all Websites by scroll (highest first)
-        sortedWebsites.sort(function(a, b) {
-          if (a.scroll < b.scroll) {
-            return 1;
-          } else if (a.scroll === b.scroll) {
-            return 0;
-          } else {
-            return -1;
-          }
-        });
       }
 
       // get nth (count) highest times and save them in new array
@@ -228,28 +184,6 @@ export default {
         websites.forEach(function(website) {
           let count = website.count;
           let percentage = ((100 / sum) * count) / 100;
-          let roundedPercentage = Math.round(percentage * 1000) / 1000;
-          website['percent'] = roundedPercentage;
-        });
-      } else if (mode === 'clicks') {
-        for (let i = 0; i < websites.length; i++) {
-          sum += websites[i].clicks;
-        }
-        // add the percentage of each top side to the object
-        websites.forEach(function(website) {
-          let clicks = website.clicks;
-          let percentage = ((100 / sum) * clicks) / 100;
-          let roundedPercentage = Math.round(percentage * 1000) / 1000;
-          website['percent'] = roundedPercentage;
-        });
-      } else if (mode === 'scroll') {
-        for (let i = 0; i < websites.length; i++) {
-          sum += websites[i].scroll;
-        }
-        // add the percentage of each top side to the object
-        websites.forEach(function(website) {
-          let scroll = website.scroll;
-          let percentage = ((100 / sum) * scroll) / 100;
           let roundedPercentage = Math.round(percentage * 1000) / 1000;
           website['percent'] = roundedPercentage;
         });

@@ -12,8 +12,6 @@ export default function saveWebsiteToStorage(websiteInfo, colorTable) {
       count: 1,
       innerCount: 0,
       time: 0,
-      clicks: 0,
-      scroll: 0,
       dominant_color: { name: 'default', hex: defaultColor },
     };
 

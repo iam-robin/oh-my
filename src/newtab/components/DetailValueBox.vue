@@ -13,16 +13,6 @@
           color="#000"
           :size=20
         />
-        <ClicksIcon
-          v-if="icon === 'clicks'"
-          color="#000"
-          :size=20
-        />
-        <ScrollIcon
-          v-if="icon === 'scroll'"
-          color="#000"
-          :size=20
-        />
       </span>
       <h2 class="title">{{ title }}</h2>
     </div>
@@ -69,8 +59,6 @@
 <script>
 import TimeIcon from './icons/TimeIcon.vue';
 import ViewsIcon from './icons/ViewsIcon.vue';
-import ClicksIcon from './icons/ClicksIcon.vue';
-import ScrollIcon from './icons/ScrollIcon.vue';
 
 export default {
   name: 'detail-value-box',
@@ -86,9 +74,7 @@ export default {
 
   components: {
     TimeIcon,
-    ViewsIcon,
-    ClicksIcon,
-    ScrollIcon,
+    ViewsIcon
   },
 };
 </script>

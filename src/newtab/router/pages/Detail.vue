@@ -29,8 +29,6 @@
             <select v-model="activeMode" v-on:change="setMode(activeMode)">
               <option value="time">time</option>
               <option value="views">views</option>
-              <option value="clicks">clicks</option>
-              <option value="scroll">scroll</option>
             </select>
           </div>
 
@@ -91,26 +89,6 @@
         :allWebsites="allWebsitesSum.totalViews + ' views'"
         :place="places.totalViews"
         unit="views"
-      />
-
-      <DetailValueBox
-        icon="clicks"
-        title="clicks per site view"
-        :dependency="periodSum.clicks != 0"
-        :value="Math.round((periodSum.clicks/periodSum.views) * 100) / 100 +  ' clicks'"
-        :allWebsites="allWebsitesSum.clicksPerView.toFixed(2) + ' clicks'"
-        :place="places.clicksPerView"
-        unit="clicks"
-      />
-
-      <DetailValueBox
-        icon="scroll"
-        title="scroll speed"
-        :dependency="periodSum.scroll != 0"
-        :value="getScrollSpeed() +  ' px/sec'"
-        :allWebsites="allWebsitesSum.scrollSpeed.toFixed(2) + ' px/sec'"
-        :place="places.scrollSpeed"
-        unit="px/sec"
       />
 
     </div>
@@ -203,16 +181,12 @@ export default {
       let periodSum = {
         time: 0,
         views: 0,
-        clicks: 0,
-        scroll: 0,
         dataCount: 0,
       };
 
       for (let i = 0; i < this.data.length; i++) {
         periodSum.time += this.data[i].info.time;
         periodSum.views += this.data[i].info.count;
-        periodSum.clicks += this.data[i].info.clicks;
-        periodSum.scroll += this.data[i].info.scroll;
         periodSum.dataCount++;
       }
       this.periodSum = periodSum;
@@ -291,15 +265,6 @@ export default {
       }
     },
 
-    getScrollSpeed: function() {
-      let scroll = this.periodSum.scroll;
-      let timeInSec = parseInt(this.periodSum.time / 1000);
-      let speed = scroll / timeInSec;
-      speed = Math.round(speed * 100) / 100;
-
-      return speed;
-    },
-
     getTotalValues: function() {
       // combine all storage data days to websites and sum up the attributes
       let mergedData = mergeSameWebsitesInPeriod(this.overAllData);
@@ -307,19 +272,13 @@ export default {
 
       allWebsitesSum.totalTime = 0;
       allWebsitesSum.totalViews = 0;
-      allWebsitesSum.totalClicks = 0;
-      allWebsitesSum.totalScroll = 0;
 
       mergedData.forEach(element => {
         allWebsitesSum.totalTime += element.time;
         allWebsitesSum.totalViews += element.count;
-        allWebsitesSum.totalClicks += element.clicks;
-        allWebsitesSum.totalScroll += element.scroll;
       });
 
       allWebsitesSum.timePerView = allWebsitesSum.totalTime / allWebsitesSum.totalViews;
-      allWebsitesSum.clicksPerView = allWebsitesSum.totalClicks / allWebsitesSum.totalViews;
-      allWebsitesSum.scrollSpeed = allWebsitesSum.totalScroll / (allWebsitesSum.totalTime / 1000);
       allWebsitesSum.dailyUsageTime = allWebsitesSum.totalTime / this.getDayAmount() / mergedData.length;
       this.allWebsitesSum = allWebsitesSum;
     },
@@ -363,8 +322,6 @@ export default {
         let websiteData = {
           domain: mergedData[i].domain,
           timePerView: parseInt(mergedData[i].time / mergedData[i].count),
-          clicksPerView: mergedData[i].clicks / mergedData[i].count,
-          scrollSpeed: mergedData[i].scroll / mergedData[i].time,
           dailyTime: parseInt(mergedData[i].time / this.getDayAmount()),
           views: mergedData[i].count,
           time: mergedData[i].time,
@@ -386,20 +343,6 @@ export default {
       }
       places.timePerView = placeTimePerView;
 
-      // CLICKS PER VIEW
-      let placeClicksPerView = 1;
-      let sortedDataClicksPerView = cloneDeep(calculatedData);
-      sortedDataClicksPerView.sort((a, b) => parseFloat(b.clicksPerView) - parseFloat(a.clicksPerView));
-
-      for (let i = 0; i < sortedDataClicksPerView.length; i++) {
-        if (sortedDataClicksPerView[i].domain === this.data[0].info.domain) {
-          break;
-        } else {
-          placeClicksPerView++;
-        }
-      }
-      places.clicksPerView = placeClicksPerView;
-
       // DAILY USAGE TIME
       let placeDailyTime = 1;
       let sortedDataDailyTime = cloneDeep(calculatedData);
@@ -413,21 +356,6 @@ export default {
         }
       }
       places.dailyTime = placeDailyTime;
-
-      // DAILY USAGE TIME
-      let placeScrollSpeed = 1;
-      let sortedDataScrollSpeed = cloneDeep(calculatedData);
-      sortedDataScrollSpeed.sort((a, b) => parseFloat(b.scrollSpeed) - parseFloat(a.scrollSpeed));
-
-      for (let i = 0; i < sortedDataScrollSpeed.length; i++) {
-        if (sortedDataScrollSpeed[i].domain === this.data[0].info.domain) {
-          break;
-        } else {
-          placeScrollSpeed++;
-        }
-      }
-      places.scrollSpeed = placeScrollSpeed;
-
       this.places = places;
     },
 

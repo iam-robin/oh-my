@@ -9,8 +9,6 @@
       <div>
         <span v-if="mode === 'time'">Usage time</span>
         <span v-if="mode === 'views'">Site views</span>
-        <span v-if="mode === 'clicks'">Clicks on website</span>
-        <span v-if="mode === 'scroll'">Scroll distance</span>
       </div>
     </div>
 
@@ -75,46 +73,6 @@
     </ul>
     <!-- </transition-group> -->
 
-    <!--mode: clicks -->
-    <ul v-if="mode === 'clicks'">
-      <li v-for="website in sortedData" :key="website.domain">
-        <router-link :to="{ name: 'detail', params: { domain: website.domain }}">
-          <div class="left">
-            <span v-if="website.favicon != '' && website.favicon" :style="{ backgroundImage: 'url(' + website.favicon + ')' }" class="favicon"></span>
-            <span v-else class="placeholder"></span>
-            <span class="domain">{{ website.domain }}</span>
-          </div>
-          <div class="right">
-            <div class="bar-container">
-              <span class="dot" v-for="index in dots" :key="index" :class="{ active: index <= getDotState(website.clicks) }"></span>
-            </div>
-            <span class="value clicks">{{ website.clicks }}</span>
-            <ClicksIcon color='#000' :size=20 />
-          </div>
-        </router-link>
-      </li>
-    </ul>
-
-    <!--mode: scroll -->
-    <ul v-if="mode === 'scroll'">
-      <li v-for="website in sortedData" :key="website.domain">
-        <router-link :to="{ name: 'detail', params: { domain: website.domain }}">
-          <div class="left">
-            <span v-if="website.favicon != '' && website.favicon" :style="{ backgroundImage: 'url(' + website.favicon + ')' }" class="favicon"></span>
-            <span v-else class="placeholder"></span>
-            <span class="domain">{{ website.domain }}</span>
-          </div>
-          <div class="right">
-            <div class="bar-container">
-              <span class="dot" v-for="index in dots" :key="index" :class="{ active: index <= getDotState(website.scroll) }"></span>
-            </div>
-            <span class="value scroll">{{ parseInt(website.scroll)}} px</span>
-            <ScrollIcon color='#000' :size=20 />
-          </div>
-        </router-link>
-      </li>
-    </ul>
-
   </div>
 </div>
 </template>
@@ -125,8 +83,6 @@ import formatMS from '../../functions/formatMS';
 
 import TimeIcon from '../../components/icons/TimeIcon.vue';
 import ViewsIcon from '../../components/icons/ViewsIcon.vue';
-import ClicksIcon from '../../components/icons/ClicksIcon.vue';
-import ScrollIcon from '../../components/icons/ScrollIcon.vue';
 
 export default {
   name: 'list-view',
@@ -139,9 +95,7 @@ export default {
 
   components: {
     TimeIcon,
-    ViewsIcon,
-    ClicksIcon,
-    ScrollIcon,
+    ViewsIcon
   },
 
   data: function() {
@@ -175,10 +129,6 @@ export default {
         sortedData.sort((a, b) => parseFloat(b.time) - parseFloat(a.time));
       } else if (this.mode === 'views') {
         sortedData.sort((a, b) => parseFloat(b.count) - parseFloat(a.count));
-      } else if (this.mode === 'clicks') {
-        sortedData.sort((a, b) => parseFloat(b.clicks) - parseFloat(a.clicks));
-      } else if (this.mode === 'scroll') {
-        sortedData.sort((a, b) => parseFloat(b.scroll) - parseFloat(a.scroll));
       }
 
       this.sortedData = sortedData;
@@ -198,10 +148,6 @@ export default {
         return this.data.reduce((max, p) => (p.time > max ? p.time : max), this.data[0].time);
       } else if (this.mode === 'views') {
         return this.data.reduce((max, p) => (p.count > max ? p.count : max), this.data[0].count);
-      } else if (this.mode === 'clicks') {
-        return this.data.reduce((max, p) => (p.clicks > max ? p.clicks : max), this.data[0].clicks);
-      } else if (this.mode === 'scroll') {
-        return this.data.reduce((max, p) => (p.scroll > max ? p.scroll : max), this.data[0].scroll);
       }
     },
 
@@ -327,12 +273,6 @@ export default {
             }
             &.views {
               width: 56px;
-            }
-            &.clicks {
-              width: 56px;
-            }
-            &.scroll {
-              width: 120px;
             }
           }
 

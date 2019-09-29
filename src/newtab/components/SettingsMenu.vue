@@ -113,7 +113,7 @@
             color="#AAB2BD"
             :size=20
           />
-          <span>time</span>
+          <span>usage time</span>
         </li>
 
         <li v-on:click="setMode('views')" :class="{ active: getMode('views') }">
@@ -127,35 +127,7 @@
             color="#AAB2BD"
             :size=20
           />
-          <span>views</span>
-        </li>
-
-        <li v-on:click="setMode('clicks')" :class="{ active: getMode('clicks') }">
-          <ClicksIcon
-            v-if="getMode('clicks')"
-            color="#000"
-            :size=20
-          />
-          <ClicksIcon
-            v-else
-            color="#AAB2BD"
-            :size=20
-          />
-          <span>clicks</span>
-        </li>
-
-        <li v-on:click="setMode('scroll')" :class="{ active: getMode('scroll') }">
-          <ScrollIcon
-            v-if="getMode('scroll')"
-            color="#000"
-            :size=20
-          />
-          <ScrollIcon
-            v-else
-            color="#AAB2BD"
-            :size=20
-          />
-          <span>scroll</span>
+          <span>site views</span>
         </li>
 
       </ul>
@@ -184,8 +156,6 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import TimeIcon from './icons/TimeIcon.vue';
 import ViewsIcon from './icons/ViewsIcon.vue';
-import ClicksIcon from './icons/ClicksIcon.vue';
-import ScrollIcon from './icons/ScrollIcon.vue';
 import Data1 from './icons/Data1.vue';
 import Data2 from './icons/Data2.vue';
 import Data3 from './icons/Data3.vue';
@@ -212,8 +182,6 @@ export default {
   components: {
     TimeIcon,
     ViewsIcon,
-    ClicksIcon,
-    ScrollIcon,
     Data1,
     Data2,
     Data3,
@@ -354,23 +322,15 @@ export default {
       if (this.activeMode === 'time') {
         this.setMode('views');
       } else if (this.activeMode === 'views') {
-        this.setMode('clicks');
-      } else if (this.activeMode === 'clicks') {
-        this.setMode('scroll');
-      } else if (this.activeMode === 'scroll') {
         this.setMode('time');
       }
     },
 
     prevMode: function() {
       if (this.activeMode === 'time') {
-        this.setMode('scroll');
+        this.setMode('views');
       } else if (this.activeMode === 'views') {
         this.setMode('time');
-      } else if (this.activeMode === 'clicks') {
-        this.setMode('views');
-      } else if (this.activeMode === 'scroll') {
-        this.setMode('clicks');
       }
     },
 
