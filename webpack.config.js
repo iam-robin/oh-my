@@ -12,7 +12,6 @@ const config = {
   entry: {
     'background/background': './background/background.js',
     'content/content': './content/content.js',
-    'popup/popup': './popup/popup.js',
     'options/options': './options/options.js',
     'newtab/newtab': './newtab/newtab.js',
   },
@@ -62,7 +61,6 @@ const config = {
     }),
     new CopyWebpackPlugin([
       { from: 'icons', to: 'icons', ignore: ['icon.xcf'] },
-      { from: 'popup/popup.html', to: 'popup/popup.html' },
       { from: 'options/options.html', to: 'options/options.html' },
       { from: 'newtab/newtab.html', to: 'newtab/newtab.html' },
       {

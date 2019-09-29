@@ -2,7 +2,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import getPeriodDays from './getPeriodDays';
 import moment from 'moment';
 
-export default function getChartData(data, mode, period, date, limit) {
+export default function getChartData(data, mode, period, date) {
   let dominantColor;
   for (let i = 0; i < data.length; i++) {
     dominantColor = data[i].info.dominant_color.hex;
@@ -82,37 +82,7 @@ export default function getChartData(data, mode, period, date, limit) {
       },
       legend: {
         display: false,
-      },
-      annotation: {
-        annotations: [
-          {
-            type: 'line',
-            mode: 'horizontal',
-            scaleID: 'y-axis-0',
-            value: getLimit(mode, limit, period),
-            borderColor: '#000',
-            borderWidth: 2,
-            label: {
-              backgroundColor: '#fff',
-              fontColor: '#000',
-              fontFamily: 'monospace',
-              content: getLimitDesc(mode, limit),
-              cornerRadius: 0,
-              enabled: true,
-              yAdjust: -14,
-              position: 'right',
-            },
-          },
-          {
-            type: 'line',
-            mode: 'horizontal',
-            scaleID: 'y-axis-0',
-            value: getUpperPadding(mode, limit, period),
-            borderColor: 'transparent',
-            borderWidth: 0,
-          },
-        ],
-      },
+      }
     },
   };
 
@@ -213,34 +183,4 @@ export default function getChartData(data, mode, period, date, limit) {
   }
 
   return chartData;
-}
-
-function getLimit(mode, limit, period) {
-  // LIMIT
-  if (mode === 'time' && limit.timeLimit && period !== 'year') {
-    return limit.timeLimit;
-  } else if (mode === 'views' && limit.viewsLimit && period !== 'year') {
-    return limit.viewsLimit;
-  }
-}
-
-function getUpperPadding(mode, limit, period) {
-  // LIMIT
-  let padding = 5;
-  if (mode === 'time' && limit.timeLimit && period !== 'year') {
-    let helperValue = parseInt(limit.timeLimit) + padding;
-    return helperValue;
-  } else if (mode === 'views' && limit.viewsLimit && period !== 'year') {
-    let helperValue = parseInt(limit.viewsLimit) + padding;
-    return helperValue;
-  }
-}
-
-function getLimitDesc(mode, limit) {
-  // LIMIT
-  if (mode === 'time') {
-    return 'limit: ' + limit.timeLimit + 'min';
-  } else if (mode === 'views') {
-    return 'limit: ' + limit.viewsLimit + ' views';
-  }
 }

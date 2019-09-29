@@ -1,6 +1,6 @@
 <template>
 <footer>
-  <div class="menu" :class="{ active: this.menuActive, limit: this.activeRoute === 'limit' }">
+  <div class="menu" :class="{ active: this.menuActive }">
 
     <div class="menu-container date">
       <span v-on:click="prevDate()" class="arrow prev" :class="{ disabled: prevButtonDisabled || getPeriod('total') }">
@@ -220,14 +220,6 @@ export default {
     Data4,
   },
 
-  watch: {
-    activeRoute: function() {
-      if (this.activeRoute === 'limit') {
-        this.setPeriod('day');
-      }
-    },
-  },
-
   created: function() {
     this.formatDate();
 
@@ -420,10 +412,6 @@ footer {
 
     &.active {
       height: 360px;
-
-      &.limit {
-        height: 123px;
-      }
     }
 
     .menu-container {

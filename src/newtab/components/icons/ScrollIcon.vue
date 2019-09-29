@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  name: 'limit-container',
+  name: 'scroll-container',
   props: {
     color: String,
     size: Number,

@@ -7,7 +7,7 @@
 
 <script>
 export default {
-  name: 'limit-container',
+  name: 'click-icon',
   props: {
     color: String,
     size: Number,

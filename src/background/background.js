@@ -2,7 +2,6 @@ import getTabInfo from './functions/getTabInfo';
 import saveWebsiteToStorage from './functions/saveWebsiteToStorage';
 import saveTimeInStorage from './functions/saveTimeInStorage';
 import saveBehaviorInStorage from './functions/saveBehaviorInStorage';
-import sendLimitToContent from './functions/sendLimitToContent';
 
 // ================================================================================
 // VARIABLES
@@ -66,7 +65,6 @@ chrome.tabs.onActivated.addListener(function(tabId, changeInfo, tab) {
     saveWebsiteToStorage(result, colorTable).then(() => {
       saveTimeInStorage(result.prevDomain, time);
       saveBehaviorInStorage(result.prevDomain, usageBehaviorSum);
-      sendLimitToContent(result);
 
       // reset usage behavior
       usageBehaviorSum.clicks = 0;
@@ -85,7 +83,6 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
       saveWebsiteToStorage(result, colorTable).then(() => {
         saveTimeInStorage(result.prevDomain, time);
         saveBehaviorInStorage(result.prevDomain, usageBehaviorSum);
-        sendLimitToContent(result);
 
         // reset usage behavior
         usageBehaviorSum.clicks = 0;

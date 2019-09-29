@@ -164,7 +164,7 @@ export default {
     this.getPeriodSum();
 
     this.getChartDate();
-    this.chartData = getChartData(this.data, this.activeMode, this.activePeriod, this.date, this.getLimit());
+    this.chartData = getChartData(this.data, this.activeMode, this.activePeriod, this.date);
 
     this.getTotalValues();
     this.getPlace();
@@ -185,16 +185,14 @@ export default {
       let data = [];
       for (let i = 0; i < storageKeys.length; i++) {
         let key = storageKeys[i];
-        if (key !== 'limits') {
-          let websites = JSON.parse(localStorage.getItem(key));
-          for (let i = 0; i < websites.length; i++) {
-            if (websites[i].domain === this.domain) {
-              let object = {
-                date: key,
-                info: websites[i],
-              };
-              data.push(object);
-            }
+        let websites = JSON.parse(localStorage.getItem(key));
+        for (let i = 0; i < websites.length; i++) {
+          if (websites[i].domain === this.domain) {
+            let object = {
+              date: key,
+              info: websites[i],
+            };
+            data.push(object);
           }
         }
       }
@@ -222,8 +220,7 @@ export default {
 
     getDayAmount: function() {
       let storageKeys = Object.keys(localStorage);
-      // length -1 because of limits
-      return storageKeys.length - 1;
+      return storageKeys.length;
     },
 
     getCurrentColor: function() {
@@ -445,14 +442,14 @@ export default {
       // reload chart
       this.myChart.destroy();
       this.getChartDate();
-      this.chartData = getChartData(this.data, this.activeMode, this.activePeriod, this.date, this.getLimit());
+      this.chartData = getChartData(this.data, this.activeMode, this.activePeriod, this.date);
       this.createChart('usage-chart', this.chartData);
     },
 
     setMode: function(menuItem) {
       // reload chart
       this.myChart.destroy();
-      this.chartData = getChartData(this.data, this.activeMode, this.activePeriod, this.date, this.getLimit());
+      this.chartData = getChartData(this.data, this.activeMode, this.activePeriod, this.date);
       this.createChart('usage-chart', this.chartData);
     },
 
@@ -468,7 +465,7 @@ export default {
       // reload chart
       this.myChart.destroy();
       this.getChartDate();
-      this.chartData = getChartData(this.data, this.activeMode, this.activePeriod, this.date, this.getLimit());
+      this.chartData = getChartData(this.data, this.activeMode, this.activePeriod, this.date);
       this.createChart('usage-chart', this.chartData);
     },
 
@@ -484,23 +481,9 @@ export default {
       // reload chart
       this.myChart.destroy();
       this.getChartDate();
-      this.chartData = getChartData(this.data, this.activeMode, this.activePeriod, this.date, this.getLimit());
+      this.chartData = getChartData(this.data, this.activeMode, this.activePeriod, this.date);
       this.createChart('usage-chart', this.chartData);
-    },
-
-    getLimit: function() {
-      let domain = this.data[0].info.domain;
-      let storageLimits = JSON.parse(localStorage.getItem('limits'));
-      let thisLimit = {};
-
-      storageLimits.forEach(limit => {
-        if (limit.domain === domain) {
-          thisLimit = limit;
-        }
-      });
-
-      return thisLimit;
-    },
+    }
   },
 };
 </script>
