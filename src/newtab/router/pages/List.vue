@@ -201,7 +201,7 @@ export default {
       flex: 0 0 100%;
       height: 80px;
       box-sizing: border-box;
-      margin-top: 24px;
+      margin-top: 16px;
       background-color: $white;
       border: 3px solid $black;
       transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, opacity 0.4s ease-in-out;

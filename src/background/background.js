@@ -1,7 +1,6 @@
 import getTabInfo from './functions/getTabInfo';
 import saveWebsiteToStorage from './functions/saveWebsiteToStorage';
 import saveTimeInStorage from './functions/saveTimeInStorage';
-import saveBehaviorInStorage from './functions/saveBehaviorInStorage';
 
 // ================================================================================
 // VARIABLES

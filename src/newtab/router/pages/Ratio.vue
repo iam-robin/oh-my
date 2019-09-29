@@ -277,7 +277,7 @@ export default {
 .container {
   height: 100vh;
   // 40px 80px - margin of grid item
-  padding: 28px 68px;
+  padding: 32px 72px;
   box-sizing: border-box;
 }
 
@@ -290,7 +290,7 @@ export default {
 
   .gridItem {
     position: relative;
-    margin: 12px;
+    margin: 8px;
     border: 3px solid $black;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
