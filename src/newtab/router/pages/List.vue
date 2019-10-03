@@ -7,6 +7,7 @@
         <span>Domain</span> 
       </div>
       <div>
+        <span>Ratio</span>
         <span v-if="mode === 'time'">Usage time</span>
         <span v-if="mode === 'views'">Site views</span>
       </div>
@@ -36,8 +37,10 @@
               <span class="dot" v-for="index in dots" :key="index" :class="{ active: index <= getDotState(website.time) }"></span>
             </div>
             <span class="value time">{{ formatMS(website.time, true) }}</span>
-
-            <TimeIcon color='#000' :size=20 />
+            <TimeIcon 
+              color='#000'
+              :size=20 
+            />
           </div>
         </router-link>
       </li>
@@ -301,6 +304,23 @@ export default {
               }
             }
           }
+        }
+      }
+    }
+  }
+}
+
+body.darkmode {
+  .container ul li {
+    background-color: $mediumblack;
+
+    a {
+      color: $white;
+
+      .right .bar-container .dot {
+        background-color: $lightblack;
+        &.active {
+          background-color: $darkgrey;
         }
       }
     }

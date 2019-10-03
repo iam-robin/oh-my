@@ -25,13 +25,11 @@
 
           <TimeIcon
             v-if="activeMode === 'time'"
-            color='#000'
             :size=20
           />
 
           <ViewsIcon
             v-if="activeMode === 'views'"
-            color='#000'
             :size=20
           />
 
@@ -263,7 +261,7 @@ body {
         display: flex;
         align-items: center;
         font-size: 16px;
-        margin-top: 16px;
+        margin-top: 12px;
         opacity: 0;
         transition: opacity 0.2s ease-out;
 
@@ -297,6 +295,22 @@ body {
       width: 100%;
       margin: 0;
     }
+  }
+}
+
+body.darkmode {
+  color: $white;
+  .info-container {
+    background-color: $mediumblack;
+
+    main .date {
+      svg path {
+        fill: $white;
+      }
+    }
+  }
+  .content-container {
+    background-color: $lightblack;
   }
 }
 </style>

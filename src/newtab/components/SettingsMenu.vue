@@ -139,6 +139,51 @@
       </span>
     </div>
 
+    <div class="menu-container mode">
+      <span v-on:click="toggleTheme()" class="arrow prev">
+        <svg viewBox="0 0 16 16" fill="none">
+          <path d="M13.3334 8H2.66669" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M6.66669 12L2.66669 8L6.66669 4" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <ul>
+        <li v-on:click="setTheme('light')" :class="{ active: getTheme('light') }">
+          <SunIcon
+            v-if="getTheme('light')"
+            color="#000"
+            :size=20
+          />
+          <SunIcon
+            v-else
+            color="#AAB2BD"
+            :size=20
+          />
+          <span>light mode</span>
+        </li>
+
+        <li v-on:click="setTheme('dark')" :class="{ active: getTheme('dark') }">
+          <MoonIcon
+            v-if="getTheme('dark')"
+            color="#000"
+            :size=20
+          />
+          <MoonIcon
+            v-else
+            color="#AAB2BD"
+            :size=20
+          />
+          <span>dark mode</span>
+        </li>
+
+      </ul>
+      <span v-on:click="toggleTheme()" class="arrow next">
+        <svg viewBox="0 0 16 16" fill="none">
+          <path d="M13.3334 8H2.66669" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M6.66669 12L2.66669 8L6.66669 4" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+    </div>
+
   </div>
   <button class="settings"
           :class="{ open: menuActive }"
@@ -156,6 +201,8 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import TimeIcon from './icons/TimeIcon.vue';
 import ViewsIcon from './icons/ViewsIcon.vue';
+import SunIcon from './icons/SunIcon.vue';
+import MoonIcon from './icons/MoonIcon.vue';
 import Data1 from './icons/Data1.vue';
 import Data2 from './icons/Data2.vue';
 import Data3 from './icons/Data3.vue';
@@ -169,6 +216,7 @@ export default {
       menuActive: false,
       activeMode: 'time',
       activePeriod: 'day',
+      activeTheme: 'light',
       formatedDate: '',
       nextButtonDisabled: true,
       prevButtonDisabled: false,
@@ -182,6 +230,8 @@ export default {
   components: {
     TimeIcon,
     ViewsIcon,
+    SunIcon,
+    MoonIcon,
     Data1,
     Data2,
     Data3,
@@ -290,6 +340,14 @@ export default {
       }
     },
 
+    changeThemeClass: function() {
+      if(document.body.classList.contains('darkmode')) {
+        document.body.classList.remove('darkmode');
+      } else {
+        document.body.classList.add('darkmode');
+      }
+    },
+
     nextPeriod: function() {
       if (this.activePeriod === 'day') {
         this.setPeriod('week');
@@ -334,6 +392,14 @@ export default {
       }
     },
 
+    toggleTheme: function() {
+      if (this.activeTheme === 'light') {
+        this.setTheme('dark');
+      } else if (this.activeTheme === 'dark') {
+        this.setTheme('light');
+      }
+    },
+
     getMode: function(menuItem) {
       return this.activeMode === menuItem;
     },
@@ -353,6 +419,16 @@ export default {
       this.checkButtons();
       this.$emit('periodChanged', this.activePeriod);
     },
+
+    getTheme: function(menuItem) {
+      return this.activeTheme === menuItem;
+    },
+
+    setTheme: function(menuItem) {
+      this.activeTheme = menuItem;
+      this.changeThemeClass();
+      this.$emit('themeChanged', this.activeTheme);
+    },
   },
 };
 </script>
@@ -371,7 +447,7 @@ footer {
     transition: 0.3s ease-in-out;
 
     &.active {
-      height: 360px;
+      height: 480px;
     }
 
     .menu-container {
@@ -530,6 +606,29 @@ footer {
 
     &:hover {
       background-color: $primary;
+    }
+  }
+}
+
+body.darkmode {
+  footer {
+    .menu .menu-container {
+      &.period,
+      &.mode {
+        ul li svg path {
+          fill: tomato;
+        }
+      }
+    }
+
+    button.settings {
+      background-color: $mediumblack;
+      color: $white;
+
+      &:hover {
+        background-color: $primary;
+        color: $black;
+      }
     }
   }
 }
