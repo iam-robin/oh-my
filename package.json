@@ -18,7 +18,7 @@
     "chart.js": "^2.7.3",
     "chartjs-plugin-annotation": "^0.5.7",
     "core-js": "^2.5.7",
-    "gsap": "^2.0.2",
+    "gsap": "^3.6.0",
     "ifvisible.js": "^1.0.6",
     "lodash": "^4.17.11",
     "moment": "^2.22.2",
