@@ -20,7 +20,7 @@
     "core-js": "^2.5.7",
     "gsap": "^2.0.2",
     "ifvisible.js": "^1.0.6",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.21",
     "moment": "^2.22.2",
     "node-vibrant": "^3.0.0",
     "rgbaster": "file:src/modules/rgbaster",
